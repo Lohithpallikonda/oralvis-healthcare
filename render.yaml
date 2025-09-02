@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: oralvis-backend
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node database/init.js && node server.js
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: JWT_SECRET
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        # Set this to your Netlify URL in Step 22 (e.g., https://your-site.netlify.app)
+        value: http://localhost:5173
+    disk:
+      name: sqlite-data
+      mountPath: /opt/render/project/src/backend/database
+      sizeGB: 1
